@@ -1,9 +1,7 @@
 name: Deploy Documentation
 run-name: ${{ github.actor }} is trying to deploy documentation 🚀
 on:
-  push:
-    branches:
-      - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -11,4 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "The docs will be uploaded to ${{steps.deployment.outputs.page_url}}."
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2 # or the latest "vX.X.X" version tag for this action
+      - run: echo "The docs will are uploaded to ${{steps.deployment.outputs.page_url}}."
