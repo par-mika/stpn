@@ -33,7 +33,7 @@ jobs:
       - name: Run mkdocs
         id: run-mkdocs
         run: |
-          mkdocs build --site-dir ff_docs \
+          mkdocs build --site-dir stpn_docs \
           && echo '::set-output name=success::true'
         continue-on-error: true
 
