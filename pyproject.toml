@@ -1,0 +1,25 @@
+[build-system]
+requires = [
+    "setuptools>=61.0.0"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pl-adj-stpn"
+description = "Stopniowanie przymiotników"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["version", "dependencies", "optional-dependencies"]
+license = { file = "LICENSE" }
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["stpn"]
+
+[tool.setuptools.dynamic]
+version = { attr = "stpn.version.__version__" }
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = ["requirements-dev.txt"] }
+docs = { file = ["requirements-docs.txt"] }

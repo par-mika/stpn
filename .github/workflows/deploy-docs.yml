@@ -7,8 +7,52 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.10]
+        deps: [docs]
+    steps:
+      - uses: actions/checkout@v4
+      # Enable Python for your testing
+      - name: Enable Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Now install the Python package itself
+      - name: Install This Python Package with dependencies [${{ matrix.deps }}]
+        run: pip install -e ".[${{ matrix.deps }}]"
+      # Check for current versions of libraries
+      - name: Show versions of installed libraries
+        run: pip freeze
+      # CUSTOM: Build docs
+      # NOTE: Ensure that `htmlcov` exists, so that docs have coverage too.
+      # NOTE: We don't have strict docs build, because `griffe` doesn't fully support Pydantic yet.
+      - name: Run mkdocs
+        id: run-mkdocs
+        run: |
+          mkdocs build --site-dir ff_docs \
+          && echo '::set-output name=success::true'
+        continue-on-error: true
+
+      # Upload docs as an artifact
+      - uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: stpn_docs/
+
   deploy_docs:
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+#      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "The docs will be uploaded to ${{steps.deployment.outputs.page_url}}."
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # or the latest "vX.X.X" version tag for this action
+      - run: echo "The docs will are uploaded to ${{steps.deployment.outputs.page_url}}."
