@@ -1,0 +1,14 @@
+name: Deploy Documentation
+run-name: ${{ github.actor }} is trying to deploy documentation 🚀
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "The docs will be uploaded to ${{steps.deployment.outputs.page_url}}."
