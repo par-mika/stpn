@@ -40,7 +40,12 @@ jobs:
       # Upload docs as an artifact
       - uses: actions/upload-artifact@v4
         with:
-          name: github-pages
+          name: stpn-docs
+          path: stpn_docs/
+
+      # Upload docs to GitHub Pages
+      - uses: actions/upload-pages-artifact@v3
+        with:
           path: stpn_docs/
 
   deploy_docs:
