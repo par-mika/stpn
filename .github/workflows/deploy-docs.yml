@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.10]
+        python-version: ["3.10"]
         deps: [docs]
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +44,7 @@ jobs:
           path: stpn_docs/
 
   deploy_docs:
+    needs: build
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
 #      pages: write      # to deploy to Pages
