@@ -12,9 +12,10 @@ jobs:
         python-version: [3.10]
         deps: [docs]
     steps:
+      - uses: actions/checkout@v4
       # Enable Python for your testing
       - name: Enable Python ${{ matrix.python-version }}
-        uses: actions/setup-python@latest
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -35,9 +36,9 @@ jobs:
         continue-on-error: true
 
       # Upload docs as an artifact
-      - uses: actions/upload-artifact@latest
+      - uses: actions/upload-artifact@v4
         with:
-          name: html-docs
+          name: github-pages
           path: stpn_docs/
 
   deploy_docs:
@@ -51,5 +52,5 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@latest # or the latest "vX.X.X" version tag for this action
+        uses: actions/deploy-pages@v4 # or the latest "vX.X.X" version tag for this action
       - run: echo "The docs will are uploaded to ${{steps.deployment.outputs.page_url}}."
