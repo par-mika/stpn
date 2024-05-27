@@ -38,10 +38,10 @@ jobs:
         continue-on-error: true
 
       # Upload docs as an artifact
-      - uses: actions/upload-artifact@v4
-        with:
-          name: stpn-docs
-          path: stpn_docs/
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          name: stpn-docs
+#          path: stpn_docs/
 
       # Upload docs to GitHub Pages
       - uses: actions/upload-pages-artifact@v3
